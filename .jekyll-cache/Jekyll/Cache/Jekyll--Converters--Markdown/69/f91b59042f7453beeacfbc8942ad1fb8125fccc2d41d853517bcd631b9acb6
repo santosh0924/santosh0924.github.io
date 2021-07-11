@@ -1,0 +1,42 @@
+I"r<h2 id="project-summary">Project Summary</h2>
+<p>This project is about data analysis on Cars dataset. The goal of the project was to combine cars data from 3 different sources, combine them using common key and perform analysis on that.</p>
+
+<p>Data sources:</p>
+<ol>
+  <li>Flat file (CSV) source - Kaggle.com</li>
+  <li>Website data source - <a href="https://en.wikipedia.org/wiki/List_of_best-selling_automobiles">Data source</a></li>
+  <li>API data source - <a href="https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json">Data source</a></li>
+</ol>
+
+<p>The data from three sources are stored in CSV file. They are merged by Make and Model and are loaded in sqlite database. Data visualization is be performed on the combined data.</p>
+
+<p>Histogram of Car Make</p>
+
+<p><img src="/img/posts/Cars/output_27_1.png" alt="png" /></p>
+
+<p>Bar chart by Car Style</p>
+
+<p><img src="/img/posts/Cars/output_28_1.png" alt="png" /></p>
+
+<p>Mean price of Cars by Make</p>
+
+<p><img src="/img/posts/Cars/output_29_1.png" alt="png" /></p>
+
+<p>Scatter plot of Car price in USD vs Make</p>
+
+<p><img src="/img/posts/Cars/output_30_1.png" alt="png" /></p>
+
+<p>Pie chart of Car distribution by Style</p>
+
+<p><img src="/img/posts/Cars/output_31_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Density plot of Odometer
+</span><span class="n">db_df</span><span class="p">[</span><span class="s">'Odometer'</span><span class="p">].</span><span class="n">plot</span><span class="p">.</span><span class="n">kde</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x21861532248&gt;
+</code></pre></div></div>
+
+<p><img src="output_32_1.png" alt="png" /></p>
+
+:ET

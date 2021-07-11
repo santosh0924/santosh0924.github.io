@@ -1,0 +1,24 @@
+I"¼
+<h2 id="project-summary">Project Summary</h2>
+<p>Financial fraud is a major concern in banking and financial services and costs millions of dollars every year. Credit card fraud continues to rise due to highly imbalanced dataset and non-stationary nature of data. It is estimated that some organization have losses up to 5% due to fraud and recent studies point that fraud activities have risen and expected to increase in future. Losses to financial institution can be avoided by detecting credit card fraud and alerting banks about potential fraudulent transactions.</p>
+
+<p>The first step in building a model is to get the dataset. One of the main issues with credit card fraud detection is unavailability of real dataset. Since the credit card data will have sensitive details about the customer, there are not many datasets available due to privacy issues. Another challenge with credit card dataset is that it is highly imbalanced where there are more legitimate transactions and few fraudulent transactions. Millions of transactions are processed every day and the size of the dataset will be huge. Feature selection technique is applied to use only required features and machine learning algorithm using Random Forest Classifier is used to evaluate and effectively predict fraudulent transactions.</p>
+
+<h3 id="problem-statement">Problem Statement</h3>
+<p>In financial industry, fraud is a major threat which leads in financial loss. Credit card fraud results in millions of dollars loss to the banks and/or financial institution. Fraudsters find new ways to conduct fraud in credit card transaction. Losses to financial institution can be avoided by detecting credit card fraud and alerting banks about potential fraudulent transactions.</p>
+
+<h3 id="proposal">Proposal</h3>
+<p>By using credit card fraud dataset, firstly I will perform some graph analysis to understand some trends in the dataset. The dataset may be imbalanced which might result in false positive or false negative fraud detection. Hence may need to perform scaling on the dataset. I will be using machine learning algorithms to detect the fraudulent transactions.</p>
+
+<h3 id="dataset">Dataset</h3>
+<p>The dataset is selected from Kaggle.
+Credit card fraud data - <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud">Data source</a></p>
+
+<h4 id="data-variables">Data Variables:</h4>
+<p>Columns V1 to V28 are result of Principal Component Analysis (PCA) which has been done due to data compliance.
+Amount is the Transaction amount 
+Class 0 indicates non-fraud and 1 indicates fraud
+Time is the time elapsed between each transaction</p>
+
+<p>Project code is present in Github - <a href="https://github.com/santosh0924/Credit-Card-Fraud-Detection">Project Link</a></p>
+:ET

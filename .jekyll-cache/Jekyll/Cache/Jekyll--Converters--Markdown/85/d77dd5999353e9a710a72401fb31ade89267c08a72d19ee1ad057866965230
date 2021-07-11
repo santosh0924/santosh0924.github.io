@@ -1,0 +1,14 @@
+I" <h2 id="project-summary">Project Summary</h2>
+<p>This project is to create Weather Application where it takes City or Zip code from user, retrieves information from openweathermap and displays weather information to user. Following information is displayed to the user:</p>
+
+<ol>
+  <li>Minimum Temperature</li>
+  <li>Maximum Temperature</li>
+  <li>Sunrise</li>
+  <li>Sunset</li>
+  <li>Windspeed and</li>
+  <li>Humidity</li>
+</ol>
+
+<p>Project code is present in Github - <a href="https://github.com/santosh0924/Weather-App">Project Link</a></p>
+:ET
