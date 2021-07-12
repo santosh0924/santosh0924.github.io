@@ -1,0 +1,409 @@
+I"¬<h2 id="project-summary">Project Summary</h2>
+<p>Wine consumption has increased in recent years and is commonly used beverage globally. There are some studies that suggests that moderate consumption of wine is good for heart. The quality of wine is important for consumers to preserve their health and to producers to remain competitive in market. Wine industries are applying new techniques and are implementing methodologies to make the process efficient. Hence, industries are looking to produce good quality wine with minimal cost. Analyzing wine quality is important to maintain human health. The chemical properties present in different type of wine are same, but the quantity of each chemical would make for different type of wine. Historically, testing and quality assurance of wine could not be achieved due to lack of resources and technology. With the advent of machine learning techniques, wines can be classified these days and the chemical properties can be analyzed in detail which helps to reduce cost.</p>
+
+<p>The proposed technique analyzes wine dataset. The data is preprocessed and cleaned. Exploratory Data Analysis is performed for visualization where key insights on data is graphically represented. Outliers in the data are removed and correlation between features are determined. Different machine learning models are used to determine accuracy. The model with best result is selected for further processing. Performance of the model is improved by tuning the model parameters.</p>
+
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Consumption of wine has grown overall. One of the studies says that wine consumed in 2018 is 9% more that was consumed 18 years ago. US topped wine consumption globally as per reports in 2018. In US, commonly produced wines are from California. There are many varieties of wine and there are some festivals specifically for wine where different varieties can be tasted. The quality of wine is determined by the balance in its chemicals, and this differs for each type â€“ Red and White. For white, alcohol or Sugar and acidity should match. For Red wine, alcohol, acidity, and tannins should be in balance. Another important factor that impacts quality of wine is intensity and finish. High quality wines have long lasting flavors that can be felt after they are swallowed.</p>
+
+<p>Wine quality can be determined with sensory or physiochemical tests. The problem with sensory test is the need for human intervention. Also, the process involved in sensory test is huge where multiple tests have to be carried out for chemical properties. It is time consuming process and is expensive. If the wine quality is not good, there process has to be started from beginning which is again very costly.</p>
+
+<p>Wine industries can use predictions from the model to improve wine quality. This helps certification companies to understand the factors that is required for quality of wine and let consumers decide when purchasing it.</p>
+
+<h3 id="data-preprocessing">Data Preprocessing</h3>
+
+<p>As seen above, there are some columns with missing values and they need to be replaced.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s">'fixed acidity'</span><span class="p">,</span><span class="s">'volatile acidity'</span><span class="p">,</span><span class="s">'citric acid'</span><span class="p">,</span> <span class="s">'residual sugar'</span><span class="p">,</span> <span class="s">'chlorides'</span><span class="p">,</span> <span class="s">'pH'</span><span class="p">,</span> <span class="s">'sulphates'</span><span class="p">]].</span><span class="n">info</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'volatile acidity'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'citric acid'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'residual sugar'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'chlorides'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'pH'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'sulphates'</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 6497 entries, 0 to 6496
+Data columns (total 7 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   fixed acidity     6487 non-null   float64
+ 1   volatile acidity  6489 non-null   float64
+ 2   citric acid       6494 non-null   float64
+ 3   residual sugar    6495 non-null   float64
+ 4   chlorides         6495 non-null   float64
+ 5   pH                6488 non-null   float64
+ 6   sulphates         6493 non-null   float64
+dtypes: float64(7)
+memory usage: 355.4 KB
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">isnull</span><span class="p">().</span><span class="nb">sum</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type                    0
+fixed acidity           0
+volatile acidity        0
+citric acid             0
+residual sugar          0
+chlorides               0
+free sulfur dioxide     0
+total sulfur dioxide    0
+density                 0
+pH                      0
+sulphates               0
+alcohol                 0
+quality                 0
+dtype: int64
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 6497 entries, 0 to 6496
+Data columns (total 13 columns):
+ #   Column                Non-Null Count  Dtype  
+---  ------                --------------  -----  
+ 0   type                  6497 non-null   object 
+ 1   fixed acidity         6497 non-null   float64
+ 2   volatile acidity      6497 non-null   float64
+ 3   citric acid           6497 non-null   float64
+ 4   residual sugar        6497 non-null   float64
+ 5   chlorides             6497 non-null   float64
+ 6   free sulfur dioxide   6497 non-null   float64
+ 7   total sulfur dioxide  6497 non-null   float64
+ 8   density               6497 non-null   float64
+ 9   pH                    6497 non-null   float64
+ 10  sulphates             6497 non-null   float64
+ 11  alcohol               6497 non-null   float64
+ 12  quality               6497 non-null   int64  
+dtypes: float64(11), int64(1), object(1)
+memory usage: 660.0+ KB
+</code></pre></div></div>
+
+<h3 id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">countplot</span><span class="p">(</span><span class="s">'quality'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Data distribution by quality'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\Users\oneor\anaconda3\lib\site-packages\seaborn\_decorators.py:36: FutureWarning: Pass the following variable as a keyword arg: x. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
+  warnings.warn(
+
+
+
+
+
+Text(0.5, 1.0, 'Data distribution by quality')
+</code></pre></div></div>
+
+<p><img src="output_10_2.png" alt="png" /></p>
+
+<p>Quality score ranges from 3 to 9 where 9 is the best quality wine. From above, it can be seen that dataset is imbalanced where majority of the wine data available is of quality between 5 and 7.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check records for wine type
+</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">explode</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'type'</span><span class="p">].</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">pie</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'type'</span><span class="p">].</span><span class="n">value_counts</span><span class="p">(),</span>
+       <span class="n">autopct</span> <span class="o">=</span> <span class="s">'%.1f%%'</span><span class="p">,</span>
+       <span class="n">explode</span> <span class="o">=</span> <span class="n">explode</span><span class="p">,</span> <span class="n">pctdistance</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">labeldistance</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'type'</span><span class="p">].</span><span class="n">unique</span><span class="p">(),</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span>
+           <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Wine data by type'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="output_12_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Box plot of Quality vs Wine type
+</span>
+<span class="n">sns</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s">"darkgrid"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">"type"</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s">"quality"</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="output_13_0.png" alt="png" /></p>
+
+<p>Quality vs wine type confirms the records available are evenly distribute. Wine type does not have impact on quality</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Box plots are made to check of outliers
+</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'fixed acidity'</span><span class="p">,</span> <span class="s">'volatile acidity'</span><span class="p">,</span> <span class="s">'citric acid'</span><span class="p">,</span> <span class="s">'alcohol'</span><span class="p">]]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'residual sugar'</span><span class="p">,</span> <span class="s">'chlorides'</span><span class="p">,</span> <span class="s">'free sulfur dioxide'</span><span class="p">,</span> <span class="s">'quality'</span><span class="p">]]</span>
+<span class="n">df3</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'total sulfur dioxide'</span><span class="p">,</span> <span class="s">'density'</span><span class="p">,</span> <span class="s">'pH'</span><span class="p">,</span> <span class="s">'sulphates'</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df1</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;AxesSubplot:&gt;
+</code></pre></div></div>
+
+<p><img src="output_16_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df2</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;AxesSubplot:&gt;
+</code></pre></div></div>
+
+<p><img src="output_17_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df3</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;AxesSubplot:&gt;
+</code></pre></div></div>
+
+<p><img src="output_18_1.png" alt="png" /></p>
+
+<p>Above shows outliers in fixed acidity, free sulfur dioxide and total sulfur dioxide. Hence, they need to be corrected.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Determine minimum and maximum values
+</span>
+<span class="n">min_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df4</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'free sulfur dioxide'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_value</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">min_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(3.2266312505920602, 11.184312261798242)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df5</span> <span class="o">=</span> <span class="n">df4</span><span class="p">[(</span><span class="n">df4</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df4</span><span class="p">[</span><span class="s">'fixed acidity'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_value</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">min_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(-53.82098914892836, 285.31013798685353)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df6</span> <span class="o">=</span> <span class="n">df5</span><span class="p">[(</span><span class="n">df5</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_value</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df5</span><span class="p">[</span><span class="s">'total sulfur dioxide'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_value</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Visualizing correlation of features and quality
+</span>
+<span class="n">corr_matrix</span><span class="o">=</span><span class="n">df6</span><span class="p">.</span><span class="n">corr</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="n">sns</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s">'figure.figsize'</span><span class="p">:(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">)})</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">df6</span><span class="p">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">"YlGnBu"</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">corr</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="n">corr</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Wine correlation matrix'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="output_29_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df7</span> <span class="o">=</span> <span class="n">df6</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="o">!=</span><span class="s">'type'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df8</span> <span class="o">=</span> <span class="n">df7</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">].</span><span class="nb">map</span><span class="p">({</span><span class="mi">3</span> <span class="p">:</span> <span class="s">'average'</span><span class="p">,</span> <span class="mi">4</span> <span class="p">:</span><span class="s">'average'</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s">'average'</span><span class="p">,</span>
+                                      <span class="mi">6</span><span class="p">:</span> <span class="s">'good'</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s">'good'</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s">'good'</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span><span class="s">'good'</span><span class="p">})</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">].</span><span class="n">value_counts</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>good       3998
+average    2320
+Name: quality, dtype: int64
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># label encode quality
+</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Train and Test data
+</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df8</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">df7</span><span class="p">.</span><span class="n">columns</span><span class="o">!=</span><span class="s">'quality'</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df8</span><span class="p">[</span><span class="s">'quality'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Normalization 
+</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_norm</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_norm</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="model-selection-and-evaluation">Model Selection and Evaluation</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">model_val</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">scor</span><span class="p">,</span> <span class="n">show</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scores</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># List of models
+</span>
+<span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">ctc</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">sgdc</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">()</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">score</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Check model score
+</span><span class="k">for</span> <span class="n">classifier</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rfc</span><span class="p">,</span> <span class="n">ctc</span><span class="p">,</span> <span class="n">sgdc</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">classifier</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="n">score</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_val</span><span class="p">(</span><span class="n">X_train_norm</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">scor</span><span class="o">=</span><span class="s">'roc_auc'</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">score</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'roc_auc'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>roc_auc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RandomForestClassifier</th>
+      <td>0.893566</td>
+    </tr>
+    <tr>
+      <th>DecisionTreeClassifier</th>
+      <td>0.749899</td>
+    </tr>
+    <tr>
+      <th>SGDClassifier</th>
+      <td>0.776921</td>
+    </tr>
+    <tr>
+      <th>LogisticRegression</th>
+      <td>0.803719</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="hyperparameter-tuning">Hyperparameter Tuning</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Hyperparameter tuning using Grid Search
+</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s">'n_estimators'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">500</span><span class="p">]</span> <span class="p">,</span> <span class="s">'criterion'</span><span class="p">:</span> <span class="p">[</span><span class="s">'entropy'</span><span class="p">,</span> <span class="s">'gini'</span><span class="p">],</span> <span class="s">'max_features'</span><span class="p">:</span> <span class="p">[</span><span class="s">'sqrt'</span><span class="p">]}]</span>
+<span class="n">randomforestclassifier</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span> <span class="o">=</span> <span class="n">randomforestclassifier</span><span class="p">,</span>
+                           <span class="n">param_grid</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">,</span>
+                           <span class="n">scoring</span> <span class="o">=</span> <span class="s">'roc_auc'</span><span class="p">,</span>
+                           <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">grid_search</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_norm</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GridSearchCV(estimator=RandomForestClassifier(), n_jobs=-1,
+             param_grid=[{'criterion': ['entropy', 'gini'],
+                          'max_features': ['sqrt'],
+                          'n_estimators': [10, 25, 50, 100, 500]}],
+             scoring='roc_auc')
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Best Score: '</span><span class="p">,</span> <span class="n">grid_search</span><span class="p">.</span><span class="n">best_score_</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Best Parameters: '</span><span class="p">,</span> <span class="n">grid_search</span><span class="p">.</span><span class="n">best_params_</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Best Score:  0.9
+Best Parameters:  {'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 500}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_pred</span> <span class="o">=</span> <span class="n">grid_search</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_norm</span><span class="p">)</span>
+<span class="c1"># Decimal places based on number of samples
+</span><span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">int64</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))))</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Confusion Matrix'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Classification report'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">dec</span><span class="p">))</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Scalar Metrics'</span><span class="p">)</span>
+<span class="n">format_str</span> <span class="o">=</span> <span class="s">'%%13s = %%.%if'</span> <span class="o">%</span> <span class="n">dec</span>
+<span class="k">if</span> <span class="n">y_test</span><span class="p">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># metrics for binary classification
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">y_score</span> <span class="o">=</span> <span class="n">grid_search</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_norm</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">y_score</span> <span class="o">=</span> <span class="n">grid_search</span><span class="p">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test_norm</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">format_str</span> <span class="o">%</span> <span class="p">(</span><span class="s">'AUROC'</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_score</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Confusion Matrix
+[[351 113]
+ [104 696]] 
+
+Classification report
+              precision    recall  f1-score   support
+
+           0     0.7714    0.7565    0.7639       464
+           1     0.8603    0.8700    0.8651       800
+
+    accuracy                         0.8283      1264
+   macro avg     0.8159    0.8132    0.8145      1264
+weighted avg     0.8277    0.8283    0.8280      1264
+
+Scalar Metrics
+        AUROC = 0.9103
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Confusion matrix
+</span><span class="n">skplt</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'0 - Average; 1 - Good'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 0, '0 - Average; 1 - Good')
+</code></pre></div></div>
+
+<p><img src="output_45_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+:ET
