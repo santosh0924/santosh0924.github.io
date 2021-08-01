@@ -1,0 +1,74 @@
+I"<h2 id="project-summary">Project Summary</h2>
+<p>‘Fake News’ term is used for intentional misrepresentation of news. They are false stories that are communicated through print, television, and social media. Fake news can be easily spread, and it can be on different topics targeting person or institution. The motive to spread fake news is to mislead the readers and harm reputation of person or organization. Some people or organizations use fake news to project themselves and gain from that sensational news. Analysis on fake news show that although complete fake news is not effective, small portion of them is much effective. They are increasingly prominent and draw more attention than actual facts. Fake news spread very rapidly in social media and reaches all over the world.</p>
+
+<p>The project proposal to detect the fake news so that people do not believe it and share with others. As part of this project, the ‘Fake News’ dataset will be analyzed to predict if the news is reliable or Fake (Unreliable). Preprocessing will be done to clean the data and Natural Language Processing (NLP) techniques will be used to convert the text data which can be used for machine learning models. Exploratory Data Analysis (EDA) will be performed for data visualization. Dataset will be split into train and test data. Machine learning models like Linear Regression, Random Forest will be applied, and performance will be evaluated. The model with best score will be selected and tuned to improve performance.</p>
+
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Consumption of wine has grown overall. One of the studies says that wine consumed in 2018 is 9% more that was consumed 18 years ago. US topped wine consumption globally as per reports in 2018. In US, commonly produced wines are from California. There are many varieties of wine and there are some festivals specifically for wine where different varieties can be tasted. The quality of wine is determined by the balance in its chemicals, and this differs for each type – Red and White. For white, alcohol or Sugar and acidity should match. For Red wine, alcohol, acidity, and tannins should be in balance. Another important factor that impacts quality of wine is intensity and finish. High quality wines have long lasting flavors that can be felt after they are swallowed.</p>
+
+<p>Wine quality can be determined with sensory or physiochemical tests. The problem with sensory test is the need for human intervention. Also, the process involved in sensory test is huge where multiple tests have to be carried out for chemical properties. It is time consuming process and is expensive. If the wine quality is not good, there process has to be started from beginning which is again very costly.</p>
+
+<p>Wine industries can use predictions from the model to improve wine quality. This helps certification companies to understand the factors that is required for quality of wine and let consumers decide when purchasing it.</p>
+
+<h3 id="dataset">Dataset</h3>
+<p>The dataset is selected from Kaggle.
+Credit card fraud data - <a href="https://www.kaggle.com/rajyellow46/wine-quality">Data source</a></p>
+
+<h2 id="data-exploration">Data Exploration</h2>
+<p>The dataset has 13 variables, they are –
+Type – Wine type which is Red or White
+Fixed acidity – The acids present in wine which can be citric, malic, tartaric and succinic. It impacts the taste of wine. Higher acidity would make the wine tase sour.
+Volatile acidity – It is the acetic acid in wine. Wine would have unpleasant taste when acetic acid is more.
+Citric acid – Similar to volatile acidity. This provides good flavors and freshness to wine when it is in small quantities.
+Residual sugar – Sugar or Sweetness present in wine after fermentation.
+Chlorides – This is the amount of salt in wine.
+Free sulfur dioxide – Sulfur dioxide that is not reacted and it protects the wine.
+Total sulfur dioxide – The portion of sulfur dioxide that is present in wine and other bound chemical in wine.
+Density – It will be more when wine is sweeter.
+pH – This describes the acidity level.
+Sulphates – It maintains flavor and freshness of wine.
+Alcohol – Presence of alcohol content in wine.
+Quality – Predictor value which ranges from 3 to 9. 3 being low quality and 9 is best quality.</p>
+
+<p>There are some columns with missing values and they need to be replaced.</p>
+
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+
+<p>Wine quality value distribution</p>
+
+<p><img src="/img/posts/Wine/output_10_2.png" alt="png" /></p>
+
+<p>Quality score ranges from 3 to 9 where 9 is the best quality wine. From above, it can be seen that dataset is imbalanced where majority of the wine data available is of quality between 5 and 7.</p>
+
+<p>Wine data by type</p>
+
+<p><img src="/img/posts/Wine/output_12_0.png" alt="png" /></p>
+
+<p><img src="/img/posts/Wine/output_13_0.png" alt="png" /></p>
+
+<p>Quality vs wine type confirms the records available are evenly distribute. Wine type does not have impact on quality</p>
+
+<p>Check for outliers</p>
+
+<p><img src="/img/posts/Wine/output_16_1.png" alt="png" /> 
+<img src="/img/posts/Wine/output_17_1.png" alt="png" /> 
+<img src="/img/posts/Wine/output_18_1.png" alt="png" /></p>
+
+<p>Above shows outliers in fixed acidity, free sulfur dioxide and total sulfur dioxide. Hence, they need to be corrected.</p>
+
+<p>Visualizing correlation of features and quality</p>
+
+<p><img src="/img/posts/Wine/output_29_0.png" alt="png" /></p>
+
+<h2 id="model-selection-and-evaluation">Model Selection and Evaluation</h2>
+<p>Predictor variable quality has values ranging from 3 to 9. The first step in model selection is to select performance metric. Since, the dataset is imbalanced, the metric chosen to evaluate the model is ROC AUC (receiver operating characteristic curve). Some of the machine learning models and techniques do not support ROC-AUC metric for multiclass variable. In such case, each of the predictor values has to be fed separately into the model to evaluate the score. To reduce the effort, I have grouped quality values 3 to 5 as average, 6 to 9 as good and converted them to binary for it to be used in the models. After converting to binary, good wine data is 3998 and average wine data is 2320. Label encoder is used of the same.
+For model selection, the dataset is split in train and test data. 80% of the data is selected for training and 20% for test. The train and test data are normalized using standard scaler.</p>
+
+<p>The models used for training are Random Forest, Decision Tree Classifier, SGD Classifier and Logistic Regression.</p>
+
+<p>Random forest model has the highest roc-auc score with 89%. Hence, it is selected for further performance tuning. Random Forest model is tuned with hyper parameters using Grid Search CV. The parameters the were chosen are estimators, criterion and max_features. The Grid SearchCV on Random Forest classifier improved the ROC-AUC score to 91%.</p>
+
+<p><img src="/img/posts/Wine/output_45_1.png" alt="png" /></p>
+
+<p>Project code is present in Github - <a href="https://github.com/santosh0924/Wine-Quality-Analysis-and-Prediciton">Project Link</a></p>
+:ET
